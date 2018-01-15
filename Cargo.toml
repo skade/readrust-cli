@@ -1,0 +1,6 @@
+[package]
+name = "readrust"
+version = "0.1.0"
+authors = ["Florian Gilcher <florian.gilcher@dm.de>"]
+
+[dependencies]
