@@ -3,7 +3,11 @@ extern crate reqwest;
 extern crate serde_json;
 
 fn main() {
-    let mut resp = reqwest::get(readrust::URL).unwrap();
+    let client = reqwest::Client::builder()
+        .proxy(reqwest::Proxy::http("http://localhost:3128").unwrap())
+        .build().unwrap();
+
+    let mut resp = client.get(readrust::URL).send().unwrap();
 
     assert!(resp.status().is_success());
 

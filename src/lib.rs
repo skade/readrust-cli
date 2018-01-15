@@ -25,7 +25,7 @@ pub struct Author {
 pub struct Item {
     id: String,
     title: String,
-    context_text: String,
+    content_text: String,
     url: String,
     date_published: String,
     author: Author,
