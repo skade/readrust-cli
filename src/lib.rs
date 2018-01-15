@@ -17,16 +17,16 @@ pub struct Feed {
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Author {
-    name: String,
-    url: String,
+    pub name: String,
+    pub url: String,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Item {
-    id: String,
-    title: String,
-    content_text: String,
-    url: String,
-    date_published: String,
-    author: Author,
+    pub id: String,
+    pub title: String,
+    pub content_text: String,
+    pub url: String,
+    pub date_published: String,
+    pub author: Author,
 }
