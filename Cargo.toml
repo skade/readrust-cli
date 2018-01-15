@@ -1,6 +1,11 @@
 [package]
 name = "readrust"
 version = "0.1.0"
-authors = ["Florian Gilcher <florian.gilcher@dm.de>"]
+authors = ["Florian Gilcher <florian.gilcher@asquera.de>"]
 
 [dependencies]
+reqwest = "0.8"
+clap = "2.29"
+serde = "1.0"
+serde_derive = "1.0"
+serde_json = "1.0"
