@@ -42,8 +42,9 @@ pub struct Item {
 
 fn get_feed() -> Feed {
     let client = reqwest::Client::new();
+    let mut request = client.get(URL);
 
-    let mut resp = client.get(URL).send().unwrap();
+    let mut resp = request.send().unwrap();
 
     assert!(resp.status().is_success());
 
@@ -56,17 +57,17 @@ fn print_count(feed: &Feed) {
     println!("Number of posts: {}", feed.items.len());
 }
 
-fn print_feed_table<I: Iterator<Item=Item>>(items: I) {
+fn print_feed_table<I: Iterator<Item = Item>>(items: I) {
     let mut table = prettytable::Table::new();
 
     table.add_row(row!["Title", "Author", "Link"]);
 
     for item in items {
         let title = if item.title.len() >= 50 {
-                        &item.title[0..50]
-                    } else {
-                        &item.title
-                    };
+            &item.title[0..50]
+        } else {
+            &item.title
+        };
 
         table.add_row(row![title, item.author.name, item.url]);
     }
@@ -75,14 +76,14 @@ fn print_feed_table<I: Iterator<Item=Item>>(items: I) {
 }
 
 fn main() {
-    let matches = App::new("readrust")
-                          .version("0.1")
-                          .author("Florian G. <florian.gilcher@asquera.de>")
-                          .about("Reads readrust.net")
-                          .args_from_usage(
-                              "-n, --number=[NUMBER] 'Number of posts'
-                              -c, --count            'Just counts the number'")
-                          .get_matches();
+    let app = App::new("readrust")
+        .version("0.1")
+        .author("Florian G. <florian.gilcher@asquera.de>")
+        .about("Reads readrust.net")
+        .args_from_usage("-n, --number=[NUMBER] 'Only print the NUMBER most recent posts'
+                          -c, --count            'Show the count of posts'");
+
+    let matches = app.get_matches();
 
     let feed = get_feed();
 
