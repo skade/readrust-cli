@@ -1,12 +1,44 @@
-extern crate readrust;
 extern crate clap;
-extern crate reqwest;
+
+extern crate serde;
+#[macro_use]
+extern crate serde_derive;
 extern crate serde_json;
+
+extern crate reqwest;
 #[macro_use]
 extern crate prettytable;
 
-use clap::{Arg, App, SubCommand};
-use readrust::{Feed, URL, Item};
+use clap::App;
+
+pub static URL: &'static str = "http://readrust.net/rust2018/feed.json";
+
+#[derive(Debug, Deserialize, Serialize)]
+struct Feed {
+    version: String,
+    title: String,
+    home_page_url: String,
+    feed_url: String,
+    description: String,
+    author: Author,
+    items: Vec<Item>,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct Author {
+    name: String,
+    url: String,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct Item {
+    id: String,
+    title: String,
+    content_text: String,
+    url: String,
+    date_published: String,
+    author: Author,
+}
 
 fn get_feed() -> Feed {
     let client = reqwest::Client::new();
@@ -17,14 +49,14 @@ fn get_feed() -> Feed {
 
     let data = resp.text().unwrap();
 
-    serde_json::from_str::<readrust::Feed>(&data).unwrap()
+    serde_json::from_str::<Feed>(&data).unwrap()
 }
 
 fn print_count(feed: &Feed) {
     println!("Number of posts: {}", feed.items.len());
 }
 
-fn print_feed_table<'a, I: Iterator<Item=&'a Item>>(items: I) {
+fn print_feed_table<I: Iterator<Item=Item>>(items: I) {
     let mut table = prettytable::Table::new();
 
     table.add_row(row!["Title", "Author", "Link"]);
@@ -57,7 +89,7 @@ fn main() {
     if matches.is_present("count") {
         print_count(&feed);
     } else {
-        let iter = feed.items.iter();
+        let iter = feed.items.into_iter();
 
         if let Some(string) = matches.value_of("number") {
             let number = string.parse().unwrap();
