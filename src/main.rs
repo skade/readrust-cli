@@ -57,7 +57,7 @@ fn print_count(feed: &Feed) {
     println!("Number of posts: {}", feed.items.len());
 }
 
-fn print_feed_table<I: Iterator<Item = Item>>(items: I) {
+fn print_feed_table<'a, I: Iterator<Item = &'a Item>>(items: I) {
     let mut table = prettytable::Table::new();
 
     table.add_row(row!["Title", "Author", "Link"]);
@@ -90,7 +90,7 @@ fn main() {
     if matches.is_present("count") {
         print_count(&feed);
     } else {
-        let iter = feed.items.into_iter();
+        let iter = feed.items.iter();
 
         if let Some(string) = matches.value_of("number") {
             let number = string.parse().unwrap();
