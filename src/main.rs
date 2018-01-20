@@ -21,7 +21,7 @@ struct Feed {
     feed_url: String,
     description: String,
     author: Author,
-    items: Vec<Item>,
+    items: Vec<FeedItem>,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -31,7 +31,7 @@ pub struct Author {
 }
 
 #[derive(Debug, Deserialize, Serialize)]
-pub struct Item {
+pub struct FeedItem {
     id: String,
     title: String,
     content_text: String,
@@ -57,7 +57,7 @@ fn print_count(feed: &Feed) {
     println!("Number of posts: {}", feed.items.len());
 }
 
-fn print_feed_table<'feeditems, I: Iterator<Item = &'feeditems Item>>(items: I) {
+fn print_feed_table<'feed, I: Iterator<Item = &'feed FeedItem>>(items: I) {
     let mut table = prettytable::Table::new();
 
     table.add_row(row!["Title", "Author", "Link"]);
