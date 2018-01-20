@@ -57,7 +57,7 @@ fn print_count(feed: &Feed) {
     println!("Number of posts: {}", feed.items.len());
 }
 
-fn print_feed_table<'a, I: Iterator<Item = &'a Item>>(items: I) {
+fn print_feed_table<'feeditems, I: Iterator<Item = &'feeditems Item>>(items: I) {
     let mut table = prettytable::Table::new();
 
     table.add_row(row!["Title", "Author", "Link"]);
