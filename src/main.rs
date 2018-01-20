@@ -11,7 +11,7 @@ extern crate prettytable;
 
 use clap::App;
 
-pub static URL: &'static str = "http://readrust.net/rust2018/feed.json";
+pub static URL: &str = "http://readrust.net/rust2018/feed.json";
 
 #[derive(Debug, Deserialize, Serialize)]
 struct Feed {
@@ -50,7 +50,7 @@ fn get_feed() -> Feed {
 
     let data = resp.text().unwrap();
 
-    serde_json::from_str::<Feed>(&data).unwrap()
+    serde_json::from_str(&data).unwrap()
 }
 
 fn print_count(feed: &Feed) {
@@ -64,7 +64,7 @@ fn print_feed_table<'a, I: Iterator<Item = &'a Item>>(items: I) {
 
     for item in items {
         let title = if item.title.len() >= 50 {
-            &item.title[0..50]
+            &item.title[0..49]
         } else {
             &item.title
         };
