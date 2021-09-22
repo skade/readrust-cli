@@ -41,10 +41,10 @@ pub struct FeedItem {
 }
 
 fn get_feed() -> Feed {
-    let client = reqwest::Client::new();
-    let mut request = client.get(URL);
+    let client = reqwest::blocking::Client::new();
+    let request = client.get(URL);
 
-    let mut resp = request.send().unwrap();
+    let resp = request.send().unwrap();
 
     assert!(resp.status().is_success());
 
