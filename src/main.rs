@@ -11,7 +11,7 @@ extern crate prettytable;
 
 use clap::App;
 
-pub static URL: &str = "http://readrust.net/rust2018/feed.json";
+pub static URL: &str = "https://readrust.net/rust2018/feed.json";
 
 #[derive(Debug, Deserialize, Serialize)]
 struct Feed {
@@ -27,7 +27,6 @@ struct Feed {
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Author {
     name: String,
-    url: String,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
